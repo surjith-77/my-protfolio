@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surjith T — Portfolio</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="photo.css">
+</head>
+
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Bg Canvas -->
+  <canvas id="canvas-bg"></canvas>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Surjith<span>.</span>T</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#academics">Academics</a></li>
+      <li><a href="#certificates">Certs</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <!-- <a href="surjith's resume.pdf" class="nav-badge" download>Download Resume</a> -->
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <!-- Anim Background -->
+    <!-- Anim Background removed -->
+
+    <div class="hero-photo">
+      <img src="images.jpeg/" alt="Surjith T">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">Computer Science Engineering</div>
+      <h1 class="hero-name">
+        <span class="line1">SURJITH</span><br>
+        <span class="line2">THANGAVEL</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-desc">
+        A <strong>first-year CS Engineering student</strong> at SNS College of Technology with a strong enthusiasm for
+        learning, exploring new technologies, and building creative solutions that merge design with functionality.
+      </p>
+      <div class="hero-cta">
+        <a href="#about" class="btn-primary">Explore Portfolio</a>
+        <a href="#contact" class="btn-secondary">Get In Touch</a>
+      </div>
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        Scroll to discover
+      </div>
+      <div class="hero-page-num">Page | 01</div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat-item reveal">
+      <span class="stat-num">94.5%</span>
+      <span class="stat-label">SSLC CGPA Score</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">90.5%</span>
+      <span class="stat-label">HSC CGPA Score</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">7</span>
+      <span class="stat-label">Certifications Earned</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">8th</span>
+      <span class="stat-label">HackNext'25 Place</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Who I Am</div>
+        <div class="section-title">About Me</div>
+      </div>
+      <div class="section-num">01</div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I am currently pursuing my <strong>first year Bachelor's degree in Computer Science and Engineering</strong>
+          at SNS College of Technology. I have a strong enthusiasm for learning and continuously exploring new
+          technologies and concepts in the field of computer science.
+        </p>
+        <p>
+          I am particularly <strong>interested in designing</strong> and enjoy working on creative ideas that combine
+          technology with visual appeal. I am eager to improve my technical and problem-solving capabilities.
+        </p>
+        <p>
+          Beyond academics, I actively seek real-world challenges — from hackathons to collaborative projects — that
+          push me to think creatively and grow as a future software engineer.
+        </p>
+      </div>
+      <div class="about-sidebar reveal">
+        <div class="info-row">
+          <span class="info-key">Mobile</span>
+          <span class="info-val">+91 9487093939</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Email</span>
+          <span class="info-val"><a href="mailto:tkspdy@gmail.com">tkspdy@gmail.com</a></span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Address</span>
+          <span class="info-val">347, Padiyur, Kangayam, Tiruppur</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">LinkedIn</span>
+          <span class="info-val"><a href="https://linkedin.com/in/surjith-thangavel-903017392"
+              target="_blank">surjith-thangavel</a></span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Education</span>
+          <span class="info-val">SNS College of Technology</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Status</span>
+          <span class="info-val" style="color: var(--accent);">● Open to Collaborate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">What I Bring</div>
+        <div class="section-title">Skills</div>
+      </div>
+      <div class="section-num">02</div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <span class="skill-icon">🐍</span>
+        <div class="skill-name">Python Basics</div>
+        <div class="skill-desc">Foundational understanding of Python for scripting, automation, and problem-solving.
+        </div>
+        <div class="skill-bar">
+          <div class="skill-fill" style="--fill: 60%"></div>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">☕</span>
+        <div class="skill-name">Learning Java</div>
+        <div class="skill-desc">Actively learning Java fundamentals — OOP concepts, data structures, and logic building.
+        </div>
+        <div class="skill-bar">
+          <div class="skill-fill" style="--fill: 35%"></div>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">🤖</span>
+        <div class="skill-name">Generative AI</div>
+        <div class="skill-desc">Explored GenAI universe, LLMs, and prompt engineering through certified courses.</div>
+        <div class="skill-bar">
+          <div class="skill-fill" style="--fill: 55%"></div>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">👥</span>
+        <div class="skill-name">Leadership</div>
+        <div class="skill-desc">Proven ability to lead teams effectively in academic settings and hackathon projects.
+        </div>
+        <div class="skill-bar">
+          <div class="skill-fill" style="--fill: 80%"></div>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">💬</span>
+        <div class="skill-name">Communication</div>
+        <div class="skill-desc">Strong communicator — demonstrated by 99% in English and effective team collaboration.
+        </div>
+        <div class="skill-bar">
+          <div class="skill-fill" style="--fill: 90%"></div>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">🎨</span>
+        <div class="skill-name">Design Thinking</div>
+        <div class="skill-desc">Passionate about merging creativity and technology to build visually compelling
+          solutions.</div>
+        <div class="skill-bar">
+          <div class="skill-fill" style="--fill: 70%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACADEMICS -->
+  <section id="academics">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">My Journey</div>
+        <div class="section-title">Academics</div>
+      </div>
+      <div class="section-num">03</div>
+    </div>
+    <div class="academics-timeline">
+      <div class="edu-item reveal">
+        <div class="edu-year">2025<br>–<br>Now</div>
+        <div class="edu-dot"></div>
+        <div class="edu-body">
+          <div class="edu-school">SNS College of Technology</div>
+          <span class="edu-grade">B.E. Computer Science Engineering</span>
+          <div class="edu-details">
+            First-year student with a strong passion for technology, design, and creative problem-solving. Active
+            participant in hackathons and team-based development projects including LendEase.
+          </div>
+        </div>
+      </div>
+      <div class="edu-item reveal">
+        <div class="edu-year">2024<br>–<br>2025</div>
+        <div class="edu-dot"></div>
+        <div class="edu-body">
+          <div class="edu-school">Jaycees Matric Hr. Sec. School</div>
+          <span class="edu-grade">HSC — CGPA 90.5% · Bio-Math</span>
+          <div class="edu-details">
+            Completed Higher Secondary Certificate in the Bio-Math stream, building a solid analytical foundation with
+            strong scores in both mathematics and science subjects.
+          </div>
+        </div>
+      </div>
+      <div class="edu-item reveal">
+        <div class="edu-year">2022<br>–<br>2023</div>
+        <div class="edu-dot"></div>
+        <div class="edu-body">
+          <div class="edu-school">Jaycees Matric Hr. Sec. School</div>
+          <span class="edu-grade">SSLC — CGPA 94.5% · 99% in English</span>
+          <div class="edu-details">
+            Achieved exceptional results with 94.5% overall CGPA including a remarkable 99% score in English, showcasing
+            both academic excellence and communication strength.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section id="certificates">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Proof of Learning</div>
+        <div class="section-title">Certificates</div>
+      </div>
+      <div class="section-num">04</div>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <div class="cert-provider">Analytics Vidhya</div>
+        <div class="cert-name">Explore GenAI Universe</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-provider">Analytics Vidhya</div>
+        <div class="cert-name">Large Language Models (LLM)</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-provider">Analytics Vidhya</div>
+        <div class="cert-name">Nano Bana — Image Magic with Gemini 2.5 Flash</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-provider">Analytics Vidhya</div>
+        <div class="cert-name">Prompting with ChatGPT</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-provider">Analytics Vidhya</div>
+        <div class="cert-name">Vibecoding</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-provider">Coursera</div>
+        <div class="cert-name">Artificial Intelligence Fundamentals</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-provider">Coursera</div>
+        <div class="cert-name">Data Science Essentials</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Notable Milestones</div>
+        <div class="section-title">Achievements</div>
+      </div>
+      <div class="section-num">05</div>
+    </div>
+    <div class="achievements-grid">
+      <div class="achieve-card reveal">
+        <div class="achieve-num">8th</div>
+        <div class="achieve-text">
+          <h3>HackNext'25 series 2 Hackathon</h3>
+          <p>Secured 8th place in a competitive hackathon, showcasing team collaboration, rapid prototyping, and
+            creative technical problem-solving under pressure.</p>
+        </div>
+      </div>
+      <div class="achieve-card reveal">
+        <div class="achieve-num">01</div>
+        <div class="achieve-text">
+          <h3>Project LendEase</h3>
+          <p>Co-developed LendEase with team members in Semester 1 — a collaborative project demonstrating real-world
+            application development skills from day one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Let's Connect</div>
+        <div class="section-title">Contact</div>
+      </div>
+      <div class="section-num">06</div>
+    </div>
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <h2>Let's Build<br><span>Something</span><br>Great.</h2>
+        <p>I'm always open to new opportunities, collaborations, and interesting conversations. Whether you have a
+          project idea or just want to say hello — reach out!</p>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:tkspdy@gmail.com">
+            <span class="contact-link-label">Email</span>
+            <span class="contact-link-val">tkspdy@gmail.com</span>
+            <span class="contact-link-arrow">→</span>
+          </a>
+          <a class="contact-link" href="tel:+919487093939">
+            <span class="contact-link-label">Phone</span>
+            <span class="contact-link-val">+91 9487093939</span>
+            <span class="contact-link-arrow">→</span>
+          </a>
+          <a class="contact-link" href="https://linkedin.com/in/surjith-thangavel-903017392" target="_blank">
+            <span class="contact-link-label">LinkedIn</span>
+            <span class="contact-link-val">surjith-thangavel-903017392</span>
+            <span class="contact-link-arrow">→</span>
+          </a>
+          <a class="contact-link" href="#">
+            <span class="contact-link-label">Location</span>
+            <span class="contact-link-val">Tiruppur, Tamil Nadu, India</span>
+            <span class="contact-link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-right reveal">
+        <div class="contact-cta-big">HIRE<br>ME</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Surjith<span>.</span>T</div>
+    <div class="footer-copy">© 2025 Surjith Thangavel — All Rights Reserved</div>
+    <a href="#home" class="footer-back">↑ Back to Top</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
