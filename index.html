@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Surjith T — Portfolio</title>
+<meta name="description" content="Surjith T — Computer Science Engineering student exploring AI, GenAI tooling, and design." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Caveat+Brush&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ["'Playfair Display'", "serif"],
+          sora: ["Sora", "sans-serif"],
+          signature: ["'Caveat Brush'", "cursive"],
+        },
+        colors: {
+          bg: 'var(--bg)',
+          "bg-soft": 'var(--bg-soft)',
+          ivory: 'var(--ivory)',
+          muted: 'var(--muted)',
+          gold: 'var(--gold)',
+          "gold-light": 'var(--gold-light)',
+          "gold-deep": 'var(--gold-deep)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root {
+    --bg: #161814;
+    --bg-soft: #1D211A;
+    --ivory: #F1F4EC;
+    --muted: #939C8A;
+    --gold: #9CB071;
+    --gold-light: #C5D4A3;
+    --gold-deep: #6F804B;
+    --line: rgba(156, 176, 113, 0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ivory);
+  }
+  @media (pointer: coarse) { body { cursor: auto; } }
+
+  ::selection { background: var(--gold); color: #14120c; }
+
+  :focus-visible {
+    outline: 1px solid var(--gold);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ---------- grain texture ---------- */
+  .grain {
+    position: fixed; inset: 0; z-index: 55; pointer-events: none;
+    opacity: 0.05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- custom cursor ---------- */
+  .cursor-dot, .cursor-ring {
+    position: fixed; top:0; left:0; z-index: 70; pointer-events: none;
+    border-radius: 999px; transform: translate(-50%,-50%);
+  }
+  .cursor-dot { display: none; }
+  .cursor-ring {
+    width: 34px; height: 34px; border: 1px solid var(--gold);
+    transition: width .25s ease, height .25s ease, opacity .25s ease, border-color .25s ease;
+    opacity: 0.7;
+  }
+  .cursor-ring.hovered { width: 56px; height: 56px; opacity: 1; }
+  @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none; } }
+
+  /* ---------- kinetic hero name: hand-drawn signature reveal ---------- */
+  .signature { font-family: 'Caveat Brush', cursive; }
+  #heroNameWrap {
+    transition: transform .5s cubic-bezier(.16,1,.3,1);
+  }
+  #heroNameWrap:hover { transform: rotate(-1.2deg) scale(1.015); }
+  #heroSigRule { transform: scaleX(0); transform-origin: left center; }
+  @media (prefers-reduced-motion: reduce) {
+    #heroNameText { stroke-dashoffset: 0 !important; fill: var(--gold) !important; }
+    #heroSigRule { transform: scaleX(1) !important; }
+  }
+
+  /* ---------- gold gradient shimmer text ---------- */
+  .gold-shimmer {
+    background: linear-gradient(110deg, var(--gold-deep) 20%, var(--gold-light) 45%, var(--gold) 60%, var(--gold-deep) 85%);
+    background-size: 250% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: shimmer 7s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: -250% center; } }
+
+  /* ---------- rule / divider draw-in ---------- */
+  .gold-rule { transform: scaleX(0); transform-origin: left center; }
+
+  /* ---------- marquee ---------- */
+  .marquee-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+
+  /* ---------- nav ---------- */
+  .nav-link { position: relative; }
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: ""; position: absolute; left: 0; bottom: -4px; height: 1px; width: 0;
+    background: var(--gold); transition: width .35s cubic-bezier(.16,1,.3,1);
+  }
+  .nav-link:hover::after { width: 100%; }
+
+  /* ---------- corner frame on portrait ---------- */
+  .frame::before, .frame::after {
+    content: ""; position: absolute; width: 26px; height: 26px; border: 1px solid var(--gold);
+  }
+  .frame::before { top: -10px; left: -10px; border-right: none; border-bottom: none; }
+  .frame::after { bottom: -10px; right: -10px; border-left: none; border-top: none; }
+
+  /* ---------- magnetic buttons ---------- */
+  .magnetic { display: inline-block; will-change: transform; }
+
+  /* ---------- timeline ---------- */
+  .rail { position: relative; }
+  .rail::before {
+    content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px;
+    background: var(--line);
+  }
+  .rail-line { position: absolute; left: 5px; top: 6px; width: 1px; background: var(--gold); height: 0; }
+  .rail-dot {
+    position: absolute; left: 0; top: 4px; width: 11px; height: 11px; border-radius: 999px;
+    background: var(--bg); border: 1.5px solid var(--gold);
+  }
+
+  .hairline { border-color: var(--line); }
+  .label-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase;
+  }
+
+  /* ---------- tab sections (SPA) ---------- */
+  .tab-section { display: none !important; }
+  .tab-section.active { display: block !important; }
+  section#top.active { display: flex !important; }
+</style>
+</head>
+
+<body class="font-sora antialiased bg-bg selection:bg-gold">
+
+  <div class="grain"></div>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- ================= PRELOADER ================= -->
+  <div id="preloader" class="fixed inset-0 z-[100] bg-bg flex items-center justify-center">
+    <div class="text-center">
+      <span id="preloaderText" class="signature block text-gold text-4xl md:text-6xl">Surjith.T</span>
+      <span id="preloaderLine" class="block h-px w-0 bg-gold mx-auto mt-5"></span>
+    </div>
+  </div>
+
+  <!-- ================= BOTTOM NAVBAR ================= -->
+  <header id="nav" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-8 py-4 bg-bg-soft/75 backdrop-blur-xl border border-gold/20 rounded-full shadow-2xl transition-all duration-500">
+    <nav class="flex items-center gap-6 md:gap-10">
+      <a href="#about" class="nav-link text-[10px] md:text-xs text-muted hover:text-ivory transition-colors uppercase tracking-[0.2em] whitespace-nowrap">About</a>
+      <a href="#skills" class="nav-link text-[10px] md:text-xs text-muted hover:text-ivory transition-colors uppercase tracking-[0.2em] whitespace-nowrap">Skills</a>
+      <a href="#academics" class="nav-link text-[10px] md:text-xs text-muted hover:text-ivory transition-colors uppercase tracking-[0.2em] whitespace-nowrap">Academics</a>
+      <a href="#certifications" class="nav-link text-[10px] md:text-xs text-muted hover:text-ivory transition-colors uppercase tracking-[0.2em] whitespace-nowrap">Learnt</a>
+      <a href="#projects" class="nav-link text-[10px] md:text-xs text-muted hover:text-ivory transition-colors uppercase tracking-[0.2em] whitespace-nowrap">Projects</a>
+      <a href="#contact" class="nav-link text-[10px] md:text-xs text-muted hover:text-ivory transition-colors uppercase tracking-[0.2em] whitespace-nowrap">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section id="top" class="tab-section active relative min-h-screen flex items-center justify-center overflow-hidden bg-bg">
+
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <img src="profile.jpg" class="w-full h-full object-cover opacity-[0.25] grayscale mix-blend-screen" alt="Surjith" />
+      <div class="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent"></div>
+    </div>
+
+    <div class="absolute inset-0 z-[1]" id="heroCanvasWrap">
+      <canvas id="net" class="w-full h-full"></canvas>
+    </div>
+
+    <div class="absolute inset-0 z-[2] pointer-events-none"
+         style="background: radial-gradient(65% 55% at 50% 50%, rgba(156,176,113,0.14), transparent 70%), linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.6) 100%);">
+    </div>
+
+    <div id="heroContent" class="relative z-10 w-full max-w-[92%] sm:max-w-xl lg:max-w-4xl px-6 md:px-10 flex flex-col items-center text-center">
+
+      <p id="heroEyebrow" class="hero-reveal label-eyebrow mb-5 opacity-0">Second-Year CSE Student · SNS College of Technology</p>
+
+      <div id="heroNameWrap" class="relative w-full flex justify-center mb-1">
+        <svg id="heroNameSvg" class="w-full max-w-[800px] h-[90px] sm:h-[130px] md:h-[200px] overflow-visible" viewBox="0 0 800 220">
+          <text id="heroNameText" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
+                font-family="'Caveat Brush', cursive" font-size="170"
+                fill="transparent" stroke="var(--gold)" stroke-width="2.5"
+                stroke-dasharray="1500" stroke-dashoffset="1500"
+                style="stroke-linecap: round; stroke-linejoin: round;">
+            Surjith.T
+          </text>
+        </svg>
+      </div>
+      <div id="heroSigRule" class="h-[3px] w-[160px] md:w-[220px] bg-gold rounded-full mb-7 mx-auto"></div>
+
+      <p class="hero-reveal font-serif italic text-ivory/85 text-[clamp(1.15rem,2.3vw,1.7rem)] mb-6 opacity-0">
+        Learning to build, quietly and deliberately.
+      </p>
+
+      <p class="hero-reveal text-muted font-light text-[clamp(0.9rem,1.4vw,1.1rem)] mb-10 max-w-[58ch] leading-relaxed opacity-0">
+        A second-year Computer Science &amp; Engineering student exploring generative AI and the craft of
+        turning rough ideas into considered interfaces. Early days — genuinely enjoying every part of it.
+      </p>
+
+      <p class="hero-reveal text-muted/60 text-xs font-light mt-10 tracking-wide opacity-0">
+        Tiruppur, Tamil Nadu &nbsp;—&nbsp; CSE, Class of 2029
+      </p>
+    </div>
+
+    <div class="absolute bottom-8 right-8 md:right-16 z-10 hidden sm:flex flex-col items-center gap-3 text-muted text-[10px] tracking-[0.3em] uppercase">
+      <span style="writing-mode: vertical-rl;">Options</span>
+      <span class="w-px h-14 bg-gold/40"></span>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="tab-section bg-bg px-6 md:px-10 lg:px-16 py-24 md:py-32">
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee-wrap border-b hairline pb-10 mb-16 bg-bg overflow-hidden -mx-6 md:-mx-10 lg:-mx-16 px-6 md:px-10 lg:px-16">
+      <div class="marquee-track">
+        <span class="mq-set flex items-center gap-10 pr-10">
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Python</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Java</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Leadership</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Communication</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Teamwork</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Generative AI</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Prompt Engineering</span><span class="text-gold">✦</span>
+        </span>
+        <span class="mq-set flex items-center gap-10 pr-10" aria-hidden="true">
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Python</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Java</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Leadership</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Communication</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Teamwork</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Generative AI</span><span class="text-gold">✦</span>
+          <span class="text-muted text-sm tracking-[0.25em] uppercase">Prompt Engineering</span><span class="text-gold">✦</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto grid md:grid-cols-[260px_1fr] gap-14 md:gap-20 items-start">
+
+      <div class="reveal flex md:block justify-center relative">
+        <div class="relative frame">
+          <img src="profile.jpg" alt="Portrait of Surjith T"
+               class="w-48 md:w-full h-auto grayscale hover:grayscale-0 transition-all duration-700 ease-out" />
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="label-eyebrow mb-4">About</p>
+        <h2 class="font-serif text-3xl md:text-4xl text-ivory mb-8 leading-tight">
+          Curious first,<br class="hidden md:block"> technical second.
+        </h2>
+        <p class="text-ivory/80 text-base md:text-lg font-light leading-relaxed mb-5 max-w-[60ch]">
+          I'm currently in my second year of a Bachelor's in Computer Science and Engineering at SNS College of
+          Technology. I got into programming the usual way — curiosity — and it's turned into a real interest in
+          how software gets designed, not just how it runs.
+        </p>
+        <p class="text-muted text-base md:text-lg font-light leading-relaxed mb-10 max-w-[60ch]">
+          Lately I've been exploring generative AI: how large language models work, how to prompt them well, and
+          how these tools can speed up building things that look and feel considered. I still have a long way to
+          go — that's the part I like most.
+        </p>
+
+        <div class="gold-rule h-px bg-gold mb-10 max-w-[200px]"></div>
+
+        <dl class="grid sm:grid-cols-2 gap-x-10 gap-y-6 text-sm max-w-[42rem]">
+          <div>
+            <dt class="label-eyebrow mb-2">Location</dt>
+            <dd class="text-ivory/85 font-light">Padiyur, Kangayam, Tiruppur</dd>
+          </div>
+          <div>
+            <dt class="label-eyebrow mb-2">Studying</dt>
+            <dd class="text-ivory/85 font-light">B.E. Computer Science &amp; Engineering</dd>
+          </div>
+          <div>
+            <dt class="label-eyebrow mb-2">Email</dt>
+            <dd class="font-light"><a class="magnetic text-ivory/85 hover:text-gold transition-colors" href="mailto:tkspdy@gmail.com">tkspdy@gmail.com</a></dd>
+          </div>
+          <div>
+            <dt class="label-eyebrow mb-2">LinkedIn</dt>
+            <dd class="font-light"><a class="magnetic text-ivory/85 hover:text-gold transition-colors" href="https://www.linkedin.com/in/surjith-thangavel-903017392" target="_blank" rel="noopener">surjith-thangavel</a></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills" class="tab-section bg-bg px-6 md:px-10 lg:px-16 py-24 md:py-32">
+    <div class="max-w-5xl mx-auto">
+      <p class="reveal label-eyebrow mb-4">Skills</p>
+      <h2 class="reveal font-serif text-3xl md:text-4xl text-ivory mb-6">Where I'm strong, and where I'm growing.</h2>
+      <div class="gold-rule h-px bg-gold mb-14 max-w-[200px] reveal"></div>
+
+      <div class="grid md:grid-cols-2 gap-14 md:gap-20">
+        <div class="reveal">
+          <h3 class="label-eyebrow mb-6">Core Strengths</h3>
+          <ul class="space-y-5">
+            <li class="flex items-baseline justify-between border-b hairline pb-4 group">
+              <span class="font-serif text-lg text-ivory/90 group-hover:text-gold transition-colors">Leadership</span>
+              <span class="text-xs text-muted">team &amp; project settings</span>
+            </li>
+            <li class="flex items-baseline justify-between border-b hairline pb-4 group">
+              <span class="font-serif text-lg text-ivory/90 group-hover:text-gold transition-colors">Communication</span>
+              <span class="text-xs text-muted">written &amp; spoken</span>
+            </li>
+            <li class="flex items-baseline justify-between border-b hairline pb-4 group">
+              <span class="font-serif text-lg text-ivory/90 group-hover:text-gold transition-colors">Teamwork</span>
+              <span class="text-xs text-muted">collaborative builds</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="reveal">
+          <h3 class="label-eyebrow mb-6">Currently Building With</h3>
+          <ul class="space-y-5">
+            <li class="flex items-baseline justify-between border-b hairline pb-4 group">
+              <span class="font-serif text-lg text-ivory/90 group-hover:text-gold transition-colors">Python</span>
+              <span class="text-xs text-gold">basics</span>
+            </li>
+            <li class="flex items-baseline justify-between border-b hairline pb-4 group">
+              <span class="font-serif text-lg text-ivory/90 group-hover:text-gold transition-colors">Java</span>
+              <span class="text-xs text-gold">learning</span>
+            </li>
+            <li class="flex items-baseline justify-between border-b hairline pb-4 group">
+              <span class="font-serif text-lg text-ivory/90 group-hover:text-gold transition-colors">Generative AI &amp; Prompting</span>
+              <span class="text-xs text-gold">applied via coursework</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ACADEMICS ================= -->
+  <section id="academics" class="tab-section bg-bg border-y hairline px-6 md:px-10 lg:px-16 py-24 md:py-32">
+    <div class="max-w-3xl mx-auto">
+      <p class="reveal label-eyebrow mb-4">Academics</p>
+      <h2 class="reveal font-serif text-3xl md:text-4xl text-ivory mb-14">A brief academic history.</h2>
+
+      <div class="grid grid-cols-2 gap-8 md:gap-6 text-center mb-20 border border-gold/10 bg-bg-soft py-10 rounded-2xl">
+        <div class="reveal">
+          <div class="font-serif text-gold text-4xl md:text-5xl mb-2"><span class="counter" data-target="94.5" data-decimals="1">0</span>%</div>
+          <p class="text-muted text-xs uppercase tracking-[0.2em]">SSLC CGPA</p>
+        </div>
+        <div class="reveal">
+          <div class="font-serif text-gold text-4xl md:text-5xl mb-2"><span class="counter" data-target="90.5" data-decimals="1">0</span>%</div>
+          <p class="text-muted text-xs uppercase tracking-[0.2em]">HSC CGPA</p>
+        </div>
+      </div>
+
+      <div class="rail space-y-14 pl-9">
+        <div class="reveal relative">
+          <span class="rail-dot"></span>
+          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+            <h3 class="font-serif text-xl text-ivory/95">SNS College of Technology</h3>
+            <span class="text-xs text-muted uppercase tracking-[0.2em]">2025 — Present</span>
+          </div>
+          <p class="text-muted font-light text-sm mb-3">B.E. Computer Science &amp; Engineering, second year</p>
+          <ul class="text-ivory/70 font-light text-sm space-y-1.5">
+            <li>— Building foundations across programming, systems, and design thinking</li>
+            <li>— Actively exploring generative AI tools and applications</li>
+          </ul>
+        </div>
+
+        <div class="reveal relative">
+          <span class="rail-dot"></span>
+          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+            <h3 class="font-serif text-xl text-ivory/95">Jaycees Matric Hr. Sec. School — HSC</h3>
+            <span class="text-xs text-muted uppercase tracking-[0.2em]">2024 — 2025</span>
+          </div>
+          <p class="text-ivory/70 font-light text-sm">Bio-Math stream</p>
+        </div>
+
+        <div class="reveal relative">
+          <span class="rail-dot"></span>
+          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+            <h3 class="font-serif text-xl text-ivory/95">Jaycees Matric Hr. Sec. School — SSLC</h3>
+            <span class="text-xs text-muted uppercase tracking-[0.2em]">2022 — 2023</span>
+          </div>
+          <p class="text-ivory/70 font-light text-sm">99% in English</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CERTIFICATIONS ================= -->
+  <section id="certifications" class="tab-section bg-bg px-6 md:px-10 lg:px-16 py-24 md:py-32">
+    <div class="max-w-5xl mx-auto">
+      <p class="reveal label-eyebrow mb-4">Learnt</p>
+      <h2 class="reveal font-serif text-3xl md:text-4xl text-ivory mb-6">Short courses &amp; Achievements.</h2>
+      
+      <div class="grid grid-cols-2 gap-8 md:gap-6 text-center mb-16 border border-gold/10 bg-bg-soft py-10 rounded-2xl">
+        <div class="reveal">
+          <div class="font-serif text-gold text-4xl md:text-5xl mb-2"><span class="counter" data-target="7" data-decimals="0">0</span></div>
+          <p class="text-muted text-xs uppercase tracking-[0.2em]">Certifications</p>
+        </div>
+        <div class="reveal">
+          <div class="font-serif text-gold text-4xl md:text-5xl mb-2">#<span class="counter" data-target="8" data-decimals="0">0</span></div>
+          <p class="text-muted text-xs uppercase tracking-[0.2em]">HACKNEXT'25</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-x-16 gap-y-12">
+        <div class="reveal">
+          <h3 class="label-eyebrow mb-6">Analytics Vidhya</h3>
+          <ul class="space-y-4">
+            <li class="text-ivory/85 font-light font-serif text-lg border-b hairline pb-4 hover:text-gold transition-colors">Explore GenAI Universe</li>
+            <li class="text-ivory/85 font-light font-serif text-lg border-b hairline pb-4 hover:text-gold transition-colors">Large Language Models</li>
+            <li class="text-ivory/85 font-light font-serif text-lg border-b hairline pb-4 hover:text-gold transition-colors">Nano Banana — Image Magic with Gemini 2.5 Flash</li>
+            <li class="text-ivory/85 font-light font-serif text-lg border-b hairline pb-4 hover:text-gold transition-colors">Prompting with ChatGPT</li>
+            <li class="text-ivory/85 font-light font-serif text-lg border-b hairline pb-4 hover:text-gold transition-colors">Vibecoding</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <h3 class="label-eyebrow mb-6">CURSA</h3>
+          <ul class="space-y-4 mb-12">
+            <li class="text-ivory/85 font-light font-serif text-lg border-b hairline pb-4 hover:text-gold transition-colors">Artificial Intelligence</li>
+            <li class="text-ivory/85 font-light font-serif text-lg border-b hairline pb-4 hover:text-gold transition-colors">Data Science</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects" class="tab-section bg-bg px-6 md:px-10 lg:px-16 py-24 md:py-32">
+    <div class="max-w-5xl mx-auto">
+      <p class="reveal label-eyebrow mb-4">Miniprojects</p>
+      <h2 class="reveal font-serif text-3xl md:text-4xl text-ivory mb-6">Things I've Built.</h2>
+      <div class="gold-rule h-px bg-gold mb-14 max-w-[200px] reveal"></div>
+
+      <div class="grid md:grid-cols-2 gap-14 md:gap-16">
+        <div class="reveal border border-gold/10 bg-bg-soft p-8 rounded-2xl hover:border-gold/30 transition-colors flex flex-col">
+          <h3 class="font-serif text-2xl text-gold mb-3">Leandease</h3>
+          <p class="text-ivory/80 font-light text-sm mb-4 leading-relaxed">
+            An all-in-one web platform for streamlined loan verification and financial planning.
+          </p>
+          <ul class="text-ivory/70 font-light text-sm space-y-2 mb-6 flex-grow">
+            <li>— <strong class="text-ivory/90 font-medium">Eligibility Check:</strong> Instantly verifies if a loan is applicable based on user criteria.</li>
+            <li>— <strong class="text-ivory/90 font-medium">Document Checklist:</strong> Dynamically lists the necessary certificates needed for approval.</li>
+            <li>— <strong class="text-ivory/90 font-medium">Interest Calculator:</strong> Breaks down interest rates and calculates potential totals.</li>
+            <li>— <strong class="text-ivory/90 font-medium">Financial Health Check:</strong> Determines if your current salary can comfortably manage the loan and interest payments.</li>
+          </ul>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="text-[10px] text-muted uppercase tracking-widest border border-gold/20 px-3 py-1 rounded-full">Web</span>
+            <span class="text-[10px] text-muted uppercase tracking-widest border border-gold/20 px-3 py-1 rounded-full">Finance</span>
+          </div>
+        </div>
+
+        <div class="reveal border border-gold/10 bg-bg-soft p-8 rounded-2xl hover:border-gold/30 transition-colors flex flex-col">
+          <h3 class="font-serif text-2xl text-gold mb-3">Flowqit</h3>
+          <p class="text-ivory/80 font-light text-sm mb-4 leading-relaxed">
+            A collaborative workspace platform connecting freelancers with potential clients.
+          </p>
+          <ul class="text-ivory/70 font-light text-sm space-y-2 mb-6 flex-grow">
+            <li>— <strong class="text-ivory/90 font-medium">Client Matching:</strong> Bridges the gap between businesses and independent talent.</li>
+            <li>— <strong class="text-ivory/90 font-medium">Task Assignment:</strong> Enables clients to hand off jobs and freelancers to claim them easily.</li>
+            <li>— <strong class="text-ivory/90 font-medium">Task Prioritization:</strong> Built-in tools for freelancers to rank their workload by urgency and deadline.</li>
+            <li>— <strong class="text-ivory/90 font-medium">Project Management:</strong> Streamlines the entire workflow from initial contact to successful project delivery.</li>
+          </ul>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="text-[10px] text-muted uppercase tracking-widest border border-gold/20 px-3 py-1 rounded-full">Web</span>
+            <span class="text-[10px] text-muted uppercase tracking-widest border border-gold/20 px-3 py-1 rounded-full">Productivity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="tab-section relative bg-bg-soft border-t hairline px-6 md:px-10 lg:px-16 py-28 md:py-36 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none opacity-[0.05] flex items-center justify-center">
+      <span class="font-serif text-[22vw] text-gold whitespace-nowrap">Surjith.T</span>
+    </div>
+
+    <div class="reveal relative max-w-2xl mx-auto text-center">
+      <p class="label-eyebrow mb-5">Contact</p>
+      <h2 class="font-serif text-[clamp(2.2rem,5.5vw,3.75rem)] text-ivory mb-6 leading-tight">
+        Let's build something.
+      </h2>
+      <p class="text-muted font-light mb-12 max-w-[50ch] mx-auto">
+        Open to internships, small projects, and conversations about AI, design, or getting started in tech.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
+        <a href="mailto:tkspdy@gmail.com"
+           class="magnetic bg-gold text-bg px-8 py-4 text-xs lowercase tracking-[0.1em] hover:brightness-110 transition-all">
+          tkspdy@gmail.com
+        </a>
+        <a href="tel:+919487093939"
+           class="magnetic border border-ivory/30 text-ivory px-8 py-4 text-xs uppercase tracking-[0.2em] hover:border-gold hover:text-gold transition-all">
+          +91 94870 93939
+        </a>
+        <a href="https://www.linkedin.com/in/surjith-thangavel-903017392" target="_blank" rel="noopener"
+           class="magnetic border border-ivory/30 text-ivory px-8 py-4 text-xs uppercase tracking-[0.2em] hover:border-gold hover:text-gold transition-all">
+          LinkedIn
+        </a>
+        <a href="https://wa.me/919487093939" target="_blank" rel="noopener"
+           class="magnetic border border-ivory/30 text-ivory px-8 py-4 text-xs uppercase tracking-[0.2em] hover:border-[#25D366] hover:text-[#25D366] transition-all">
+          WhatsApp
+        </a>
+      </div>
+
+      <div class="flex items-center justify-center gap-6 text-sm text-muted">
+        <span>347, Padiyur, Kangayam, Tiruppur</span>
+      </div>
+    </div>
+
+    <p class="relative text-center text-xs text-muted/50 font-light mt-24">
+      Surjith T — built and designed by hand, with a little AI help along the way.
+    </p>
+  </section>
+
+  </div> <!-- End of main-content -->
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ---------------- preloader ---------------- */
+    window.addEventListener('load', () => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      tl.from('#preloaderText', { opacity: 0, y: 16, duration: 1.5 })
+        .to('#preloaderLine', { width: '120px', duration: 1.2, ease: 'power2.inOut' })
+        .to('#preloaderText', { opacity: 0, duration: 0.8 }, '+=1.0')
+        .to('#preloader', { yPercent: -100, duration: 1.2, ease: 'power4.inOut' }, '-=0.1')
+        .set('#preloader', { display: 'none' })
+        .to('#heroEyebrow', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power3.out' }, '-=0.45')
+        .to('#heroNameText', {
+          strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut'
+        }, '-=0.35')
+        .to('#heroNameText', {
+          fill: 'var(--gold)', duration: 1, ease: 'power2.out'
+        }, '-=1.0')
+        .to('#heroSigRule', { scaleX: 1, duration: 0.5, ease: 'power3.out' }, '-=0.5')
+        .to('.hero-reveal:not(#heroEyebrow)', {
+          opacity: 1, y: 0, filter: 'blur(0px)', stagger: 0.12, duration: 0.9, ease: 'power3.out'
+        }, '-=0.2');
+
+      gsap.set('.hero-reveal', { y: 20, filter: 'blur(6px)' });
+    });
+
+    /* ---------------- scroll reveals ---------------- */
+    gsap.utils.toArray('.reveal').forEach((el) => {
+      gsap.from(el, {
+        opacity: 0, y: 36, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%' },
+      });
+    });
+
+    gsap.utils.toArray('.gold-rule').forEach((el) => {
+      gsap.to(el, {
+        scaleX: 1, duration: 1.1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 92%' },
+      });
+    });
+
+    /* timeline rail progress line */
+    document.querySelectorAll('.rail').forEach((rail) => {
+      const line = document.createElement('div');
+      line.className = 'rail-line';
+      rail.appendChild(line);
+      gsap.to(line, {
+        height: '100%', ease: 'none',
+        scrollTrigger: { trigger: rail, start: 'top 75%', end: 'bottom 70%', scrub: 0.6 },
+      });
+    });
+
+    /* ---------------- counters ---------------- */
+    document.querySelectorAll('.counter').forEach((el) => {
+      const target = parseFloat(el.dataset.target);
+      const decimals = parseInt(el.dataset.decimals || '0', 10);
+      const obj = { val: 0 };
+      ScrollTrigger.create({
+        trigger: el, start: 'top 90%', once: true,
+        onEnter: () => {
+          gsap.to(obj, {
+            val: target, duration: 1.6, ease: 'power2.out',
+            onUpdate: () => { el.textContent = obj.val.toFixed(decimals); },
+          });
+        },
+      });
+    });
+
+
+
+    /* ---------------- custom cursor & trail ---------------- */
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    if (fine) {
+      let rx = 0, ry = 0, tx = 0, ty = 0;
+      window.addEventListener('mousemove', (e) => {
+        if (dot) {
+          dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+        }
+        tx = e.clientX; ty = e.clientY;
+
+        // Particle trail
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.left = e.clientX + 'px';
+        particle.style.top = e.clientY + 'px';
+        particle.style.width = '6px';
+        particle.style.height = '6px';
+        particle.style.background = 'var(--gold)';
+        particle.style.borderRadius = '50%';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '69';
+        particle.style.transform = 'translate(-50%, -50%)';
+        document.body.appendChild(particle);
+
+        gsap.to(particle, {
+          opacity: 0,
+          scale: 0.1,
+          duration: 0.8,
+          ease: 'power2.out',
+          onComplete: () => particle.remove()
+        });
+      });
+      gsap.ticker.add(() => {
+        rx += (tx - rx) * 0.16; ry += (ty - ry) * 0.16;
+        if (ring) {
+          ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        }
+      });
+      document.querySelectorAll('a, button, .magnetic').forEach((el) => {
+        el.addEventListener('mouseenter', () => ring && ring.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => ring && ring.classList.remove('hovered'));
+      });
+    }
+
+    /* ---------------- magnetic buttons ---------------- */
+    if (fine) {
+      document.querySelectorAll('.magnetic').forEach((el) => {
+        const strength = 14;
+        el.addEventListener('mousemove', (e) => {
+          const r = el.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) / r.width;
+          const y = (e.clientY - r.top - r.height / 2) / r.height;
+          gsap.to(el, { x: x * strength, y: y * strength, duration: 0.4, ease: 'power2.out' });
+        });
+        el.addEventListener('mouseleave', () => {
+          gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.4)' });
+        });
+      });
+    }
+
+    /* ---------------- hero parallax + fade on scroll ---------------- */
+    gsap.to('#heroContent', {
+      yPercent: -18, opacity: 0.2, ease: 'none',
+      scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: true },
+    });
+    gsap.to('#heroCanvasWrap', {
+      yPercent: 12, ease: 'none',
+      scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: true },
+    });
+
+    /* ---------------- gold-dust node network ---------------- */
+    (function () {
+      const canvas = document.getElementById('net');
+      const ctx = canvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let w, h, dpr, points = [];
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth; h = canvas.clientHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.max(24, Math.min(55, Math.floor((w * h) / 26000)));
+        points = Array.from({ length: count }, () => ({
+          x: Math.random() * w, y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.12, vy: (Math.random() - 0.5) * 0.12,
+          r: Math.random() * 1.2 + 0.6,
+        }));
+      }
+
+      function step() {
+        ctx.clearRect(0, 0, w, h);
+        const linkDist = Math.min(140, w * 0.13);
+        for (const p of points) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+        }
+        for (let i = 0; i < points.length; i++) {
+          for (let j = i + 1; j < points.length; j++) {
+            const a = points[i], b = points[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < linkDist) {
+              ctx.strokeStyle = `rgba(156,176,113,${(1 - dist / linkDist) * 0.15})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+        }
+        for (const p of points) {
+          ctx.fillStyle = 'rgba(197,212,163,0.55)';
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        }
+        if (!reduceMotion) requestAnimationFrame(step);
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      step();
+    })();
+
+    /* ---------------- SPA Tab Navigation ---------------- */
+    const tabLinks = document.querySelectorAll('a[href^="#"]');
+    const sections = ['#top', '#about', '#skills', '#academics', '#certifications', '#projects', '#contact'];
+
+    function showSection(targetId) {
+      if (!sections.includes(targetId)) return;
+
+      // Hide all tab sections
+      document.querySelectorAll('.tab-section').forEach(el => {
+        el.classList.remove('active');
+      });
+
+      // Show target
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        targetEl.classList.add('active');
+        window.scrollTo(0, 0); // Reset scroll to top
+        
+        // Refresh ScrollTrigger so animations inside the tab work correctly
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
+      }
+    }
+
+    tabLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const targetId = link.getAttribute('href');
+        if (sections.includes(targetId)) {
+          e.preventDefault();
+          showSection(targetId);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
